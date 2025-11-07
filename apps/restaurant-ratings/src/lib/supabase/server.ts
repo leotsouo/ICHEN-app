@@ -1,17 +1,36 @@
 ﻿// apps/restaurant-ratings/src/lib/supabase/server.ts
-import { createClient } from "@supabase/supabase-js";
+import { headers } from "next/headers";
+import { createServerClient } from "@supabase/ssr";
 
-export function supabaseServer() {
-  return createClient(
+// 解析 Cookie header（RSC 環境只讀，不寫）
+function parseCookieHeader(raw: string) {
+  const map = new Map<string, string>();
+  if (!raw) return map;
+  for (const part of raw.split(/; */)) {
+    const i = part.indexOf("=");
+    if (i <= 0) continue;
+    const k = decodeURIComponent(part.slice(0, i).trim());
+    const v = decodeURIComponent(part.slice(i + 1));
+    map.set(k, v);
+  }
+  return map;
+}
+
+export async function supabaseServer() {
+  const h = await headers();
+  const jar = parseCookieHeader(h.get("cookie") ?? "");
+
+  return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
-      db: { schema: "rest" }, // 你的資料都在 rest schema
-      auth: {
-        // 不使用登入，就不要持久化／自動刷新，避免任何 cookie 行為
-        persistSession: false,
-        autoRefreshToken: false,
-        detectSessionInUrl: false,
+      db: { schema: "rest" }, // 關鍵：預設查詢 rest schema
+      cookies: {
+        get(name: string) {
+          return jar.get(name);
+        },
+        set() {},     // RSC 不能改 cookie：no-op
+        remove() {},  // RSC 不能改 cookie：no-op
       },
     }
   );
