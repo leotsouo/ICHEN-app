@@ -1,0 +1,15 @@
+﻿# Node / Next / Turbo
+node_modules/
+.next/
+.turbo/
+dist/
+out/
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Logs & misc
+*.log
+.DS_Store
