@@ -1,7 +1,6 @@
 // apps/restaurant-ratings/src/app/page.tsx
 import { supabaseServer } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
-
 export default async function Page({
   searchParams,
 }: {
@@ -190,6 +189,21 @@ export default async function Page({
       </div>
 
       <a href="http://localhost:3000" style={{ textDecoration: "none" }}>← 回首頁</a>
+
+      <div style={{ marginTop: 12, display: "flex", gap: 12, alignItems: "center" }}>
+        <img
+          src="/qr-code.png"
+          alt="QR Code for restaurant ratings"
+          width={160}
+          height={160}
+        />
+        <div style={{ fontSize: 13, color: "#444" }}>
+          <div style={{ fontWeight: 700, marginBottom: 6 }}>用手機掃描快速開啟</div>
+          <div style={{ maxWidth: 220, wordBreak: "break-all", opacity: 0.8 }}>
+            https://ichen-app-restaurant-ratings.vercel.app
+          </div>
+        </div>
+      </div>
 
       {banner && (
         <div style={{ marginTop: 12, padding: 10, borderRadius: 8, background: "#eef6ff", border: "1px solid #cfe3ff" }}>
