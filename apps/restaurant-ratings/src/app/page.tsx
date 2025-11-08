@@ -188,7 +188,7 @@ export default async function Page({
         ) : null}
       </div>
 
-      <a href="http://localhost:3000" style={{ textDecoration: "none" }}>← 回首頁</a>
+      <a href="/" style={{ textDecoration: "none" }}>← 回首頁</a>
 
       <div style={{ marginTop: 12, display: "flex", gap: 12, alignItems: "center" }}>
         <img
