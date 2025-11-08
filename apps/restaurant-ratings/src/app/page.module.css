@@ -1,141 +1,119 @@
+/* 暖色系主題（餐廳評分） */
 .page {
-  --background: #fafafa;
-  --foreground: #fff;
+  --bg: #fff7f2;
+  --paper: #fffdfa;
+  --ink: #4e3222;
+  --ink-muted: #7a5a4a;
+  --card: #fffdfa;
+  --card-stroke: rgba(78, 50, 34, 0.12);
+  --accent-ink: #56361f;
+  --radius: 14px;
 
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  background: var(--bg);
+  min-height: 100svh;
+  padding: 24px;
 }
 
 .main {
-  display: flex;
-  min-height: 100vh;
   width: 100%;
-  max-width: 800px;
+  max-width: 960px;
+  margin: 0 auto;
+  background: var(--paper);
+  border: 1px solid var(--card-stroke);
+  border-radius: var(--radius);
+  padding: 24px;
+
+  /* 修正：不要把內容撐到上下兩端 */
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+  justify-content: flex-start;
+  gap: 16px;
 }
 
+/* 頁首區 */
 .intro {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
+  gap: 8px;
+  border-bottom: 1px dashed rgba(78, 50, 34, 0.18);
+  padding-bottom: 12px;
 }
 
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
-}
-
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
+.titleRow {
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.h1 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.back {
+  color: var(--ink-muted);
+  text-decoration: none;
   font-size: 14px;
 }
 
-.ctas a {
+.callout {
+  background: #fff6ef;
+  border: 1px solid var(--card-stroke);
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+/* 登入列 */
+.loginRow {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
-}
-
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
   gap: 8px;
+  margin-top: 8px;
+}
+.input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid rgba(78, 50, 34, 0.22);
+  border-radius: 10px;
+  background: #fffdfb;
+}
+.button {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: linear-gradient(#ffdfc7, #ffcaa5);
+  border: 1px solid var(--card-stroke);
+  color: var(--accent-ink);
+  font-weight: 600;
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+/* 清單 */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+.item {
+  border: 1px solid var(--card-stroke);
+  background: var(--card);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75);
+}
+.itemTitle {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink);
+}
+.itemSub {
+  color: var(--ink);
+  opacity: .75;
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-}
-
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-
-  .page {
-    --background: #000;
-    --foreground: #000;
-
-    --text-primary: #ededed;
-    --text-secondary: #999;
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
-  }
+@media (max-width: 640px) {
+  .page { padding: 12px; }
+  .main { padding: 16px; }
+  .h1 { font-size: 22px; }
 }

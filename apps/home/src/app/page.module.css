@@ -1,141 +1,165 @@
-.page {
-  --background: #fafafa;
-  --foreground: #fff;
+/* apps/home/src/app/page.module.css */
 
-  --text-primary: #000;
-  --text-secondary: #666;
+/* ===== 基底：溫暖配色（作用域僅此頁）===== */
+.warmMain {
+  /* palette */
+  --ink: #3d302a;
+  --muted: #7b6358;
+  --card: #fffdfb;
+  --bg-0: #fff7f0;
+  --bg-1: #fff1e4;
+  --bg-2: #ffe7d3;
+  --border: rgba(78, 50, 34, 0.12);
+  --border-strong: rgba(78, 50, 34, 0.22);
+  --accent: #e6a57e;      /* 杏桃 */
+  --accent-2: #f3c3a1;    /* 奶茶 */
+  --cta: #ffd9c2;         /* 蜜桃 */
 
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
+  /* layout */
+  min-height: 100dvh;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 40px 16px 24px;
   display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  flex-direction: column;
+  gap: 22px;
+
+  color: var(--ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Helvetica Neue",
+    Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+  /* 柔和暖色背景：多層漸層 + 超淡紋理 */
+  background:
+    radial-gradient(1100px 600px at -10% -20%, var(--bg-2) 0%, transparent 65%),
+    radial-gradient(900px 500px at 120% 0%,  var(--bg-1) 0%, transparent 65%),
+    linear-gradient(180deg, var(--bg-0) 0%, #fffdfa 100%);
+  position: relative;
+  isolation: isolate;
+  animation: fadeIn 360ms ease-out both;
 }
 
-.main {
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Hero ===== */
+.hero {
+  background: color-mix(in srgb, #ffffff 82%, var(--bg-1));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-shadow:
+    0 10px 24px rgba(150, 100, 60, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+  backdrop-filter: blur(2px);
+}
+
+.title {
   display: flex;
-  min-height: 100vh;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.emoji {
+  font-size: 26px;
+  transform: translateY(1px);
+  filter: drop-shadow(0 2px 0 rgba(0,0,0,.04));
+}
+.title h1 {
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: .4px;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+/* ===== Grid of cards ===== */
+.grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-top: 6px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+  gap: 12px;
+
+  text-decoration: none;
+  color: inherit;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 18px;
+
+  box-shadow:
+    0 10px 22px rgba(150, 100, 60, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.75);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease;
 }
 
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  background: color-mix(in srgb, var(--card) 90%, var(--bg-1));
+  box-shadow:
+    0 14px 28px rgba(150, 100, 60, 0.14),
+    inset 0 1px 0 rgba(255,255,255,0.85);
 }
 
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
+.card:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--accent) 35%, #ffffff),
+    0 10px 22px rgba(150, 100, 60, 0.12);
 }
 
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
+.cardText { display: grid; gap: 4px; }
+.cardTitle { font-weight: 800; font-size: 18px; letter-spacing: .2px; }
+.cardDesc  { color: var(--muted); }
+
+.cardCta {
+  white-space: nowrap;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--cta);
+  border: 1px solid color-mix(in srgb, var(--cta) 60%, #000 12%);
+  color: color-mix(in srgb, var(--ink) 86%, #6b3e2b);
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.65);
+  transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+}
+.card:hover .cardCta {
+  transform: translateX(2px);
+  background: color-mix(in srgb, var(--cta) 88%, #fff);
+  border-color: color-mix(in srgb, var(--cta) 58%, #000 18%);
 }
 
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
+/* ===== Footer ===== */
+.foot {
+  margin-top: 8px;
+  text-align: center;
+  color: color-mix(in srgb, var(--muted) 80%, #000 8%);
+  font-size: 12px;
 }
 
-.ctas {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
+/* ===== RWD & 動效保護 ===== */
+@media (min-width: 960px) {
+  .title h1 { font-size: 26px; }
 }
 
-.ctas a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
-}
-
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
-}
-
-a.secondary {
-  border-color: var(--button-secondary-border);
-}
-
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-}
-
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-
-  .page {
-    --background: #000;
-    --foreground: #000;
-
-    --text-primary: #ededed;
-    --text-secondary: #999;
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .warmMain, .card, .cardCta { transition: none; animation: none; }
 }

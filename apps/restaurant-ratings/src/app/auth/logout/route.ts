@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
-import { supabaseServerMutable } from "@/lib/supabase/server";
+import { supabaseServer } from "@/lib/supabase/server";
+import { mkTrace } from "@/lib/supabase/debug";
 
 export async function POST(req: Request) {
-  const s = await supabaseServerMutable();
-  await s.auth.signOut();
-  const { origin } = new URL(req.url);
-  return NextResponse.redirect(`${origin}/`);
+  const t = mkTrace("AUTH_LOGOUT");
+  const s = await supabaseServer();
+  const { error } = await s.auth.signOut();
+  if (error) t.err("signOut error", error);
+  else t.log("logout ok");
+
+  return NextResponse.redirect(new URL(`/?m=logged_out&t=${t.id}`, req.url));
 }

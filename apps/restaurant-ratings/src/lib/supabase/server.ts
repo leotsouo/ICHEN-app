@@ -1,37 +1,62 @@
 ﻿// apps/restaurant-ratings/src/lib/supabase/server.ts
-import { headers } from "next/headers";
-import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
 
-// 解析 Cookie header（RSC 環境只讀，不寫）
-function parseCookieHeader(raw: string) {
-  const map = new Map<string, string>();
-  if (!raw) return map;
-  for (const part of raw.split(/; */)) {
-    const i = part.indexOf("=");
-    if (i <= 0) continue;
-    const k = decodeURIComponent(part.slice(0, i).trim());
-    const v = decodeURIComponent(part.slice(i + 1));
-    map.set(k, v);
-  }
-  return map;
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const isProd = process.env.NODE_ENV === "production";
+
+// 讀取用（RSC）
+export async function supabaseServer() {
+  const store = await cookies();
+  return createServerClient(url, key, {
+    cookies: {
+      get(name: string) {
+        return store.get(name)?.value;
+      },
+      // RSC 不允許改 cookie，留空避免噴錯
+      set() {},
+      remove() {},
+    },
+    cookieOptions: {
+      // 讀取不影響，但保留一致性
+      sameSite: "lax",
+      secure: isProd,
+      path: "/",
+    },
+  });
 }
 
-export async function supabaseServer() {
-  const h = await headers();
-  const jar = parseCookieHeader(h.get("cookie") ?? "");
+// Route 專用（可寫 cookie）。若呼叫端已經建立了 redirect Response，傳進來用同一個。
+export async function supabaseRoute(res?: NextResponse) {
+  const response = res ?? NextResponse.next();
+  const store = await cookies();
 
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      db: { schema: "rest" }, // 關鍵：預設查詢 rest schema
-      cookies: {
-        get(name: string) {
-          return jar.get(name);
-        },
-        set() {},     // RSC 不能改 cookie：no-op
-        remove() {},  // RSC 不能改 cookie：no-op
+  const cookieOpts: CookieOptions = {
+    sameSite: "lax",
+    secure: isProd, // 本機 http ⇒ false；Production https ⇒ true
+    path: "/",
+  };
+
+  const client = createServerClient(url, key, {
+    cookies: {
+      get(name: string) {
+        return store.get(name)?.value;
       },
-    }
-  );
+      set(name: string, value: string, options?: CookieOptions) {
+        response.cookies.set(name, value, { ...cookieOpts, ...options });
+      },
+      remove(name: string, options?: CookieOptions) {
+        response.cookies.set(name, "", {
+          ...cookieOpts,
+          ...options,
+          expires: new Date(0),
+        });
+      },
+    },
+    cookieOptions: cookieOpts,
+  });
+
+  return { supabase: client, response };
 }
