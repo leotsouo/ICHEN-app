@@ -127,6 +127,12 @@ git push -u origin main
 3. 如果沒有看到你的倉庫，點擊 **Adjust GitHub App Permissions** 來授權 Vercel 訪問你的倉庫
 4. 選擇倉庫後，點擊 **Import**
 
+> 💡 **選擇分支**：
+> - Vercel 預設會使用 `main` 分支
+> - 如果你想要部署其他分支（例如 `newtest`），可以在導入後於項目設定中配置
+> - 或者直接在 Configure Project 頁面選擇要部署的分支（如果有選項）
+> - 後續也可以在 Settings → Git → Production Branch 中修改生產分支
+
 ---
 
 ## ⚙️ 配置項目設定
@@ -140,6 +146,16 @@ git push -u origin main
 - **Framework Preset**: 選擇 **Next.js**（應該會自動偵測）
 
 - **Root Directory**: **重要！** 點擊 **Edit** 並選擇 `apps/home`
+
+- **Git Branch**: （可選）如果需要部署特定分支（例如 `newtest`），可以在這裡選擇。預設會使用 `main` 分支作為生產分支。
+
+> 💡 **分支部署說明**：
+> - Vercel 預設使用 `main` 分支作為 **Production 分支**
+> - 你可以部署任何分支，方式有兩種：
+>   1. **將分支設為 Production 分支**：在項目創建後，前往 Settings → Git → Production Branch，選擇你要的分支（例如 `newtest`）
+>   2. **作為 Preview 分支**：直接推送分支到 GitHub，Vercel 會自動為該分支創建預覽部署
+> - 預覽部署會生成唯一的 URL，適合測試
+> - Production 部署會使用項目的主要 URL
 
 - **Build Command**: 
   ```
@@ -211,8 +227,15 @@ git push -u origin main
 建置完成後：
 
 1. 你會看到 **Congratulations!** 頁面
-2. 記下你的部署 URL（例如：`https://ichen-app.vercel.app`）
+2. 記下你的部署 URL：
+   - **Production 部署**：`https://your-app.vercel.app`（簡潔的 URL）
+   - **Preview 部署**：`https://your-app-git-branch-username.vercel.app`（包含分支名稱的 URL）
 3. 點擊 **Visit** 按鈕查看部署的應用
+
+> 💡 **URL 說明**：
+> - Production 部署使用簡潔的項目名稱 URL
+> - Preview 部署（從非生產分支）會生成包含分支名稱的唯一 URL
+> - 例如：`ichen-app-home-test-20n9i9ig6-leos-projects-0a2aae41.vercel.app` 是預覽部署 URL
 
 ---
 
@@ -228,14 +251,32 @@ git push -u origin main
 4. 點擊 **URL Configuration**
 5. 在 **Redirect URLs** 區塊，點擊 **Add URL**
 6. 添加你的 Vercel 部署 URL：
+   
+   **Production 部署**：
    ```
    https://your-app.vercel.app/auth/callback
    ```
+   
+   **Preview 部署**（如果使用預覽分支）：
+   ```
+   https://your-preview-url.vercel.app/auth/callback
+   ```
+   
+   例如：
+   ```
+   https://ichen-app-home-test-20n9i9ig6-leos-projects-0a2aae41.vercel.app/auth/callback
+   ```
+   
    同時保留本地開發 URL：
    ```
    http://localhost:3000/auth/callback
    ```
 7. 點擊 **Save**
+
+> 💡 **提示**：
+> - 如果同時有 Production 和 Preview 部署，需要分別添加兩個 Redirect URL
+> - 或者使用通配符（如果 Supabase 支援）：`https://*.vercel.app/auth/callback`
+> - 每次創建新的預覽部署時，如果 URL 不同，需要添加新的 Redirect URL
 
 ### 步驟 2: 設定 Site URL（可選）
 
@@ -320,17 +361,34 @@ https://your-app.vercel.app
 
 當你推送新的 commit 到 GitHub 時，Vercel 會自動觸發新的部署：
 
+**生產分支（Production）**：
 ```bash
-# 修改程式碼後
+# 推送到生產分支（預設為 main）
 git add .
 git commit -m "Update: 描述你的變更"
 git push origin main
+```
+
+**其他分支（Preview）**：
+```bash
+# 推送到其他分支（例如 newtest）會自動創建預覽部署
+git add .
+git commit -m "Update: 描述你的變更"
+git push origin newtest
 ```
 
 Vercel 會自動：
 1. 偵測到新的 commit
 2. 開始建置
 3. 部署新版本
+   - 生產分支推送到 **Production** 環境
+   - 其他分支推送到 **Preview** 環境（會生成唯一的預覽 URL）
+
+> 💡 **分支部署說明**：
+> - **Production 分支**：通常是 `main` 分支，部署到生產環境（主要 URL）
+> - **Preview 分支**：其他所有分支，每次推送會創建預覽部署（臨時 URL）
+> - 你可以在 Settings → Git → Production Branch 中修改生產分支
+> - 預覽部署非常適合測試新功能，確認無誤後再合併到生產分支
 
 ### 手動重新部署
 
