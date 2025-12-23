@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/app/page.tsx
+// apps/home/src/app/ratings/page.tsx
 import { supabaseServer } from "@ichen-app/shared-supabase";
 import { parseAuthMessage } from "@/lib/auth/utils";
 import {
@@ -14,22 +14,15 @@ import { AuthForm } from "@/components/ratings/AuthForm";
 import { UserHeader } from "@/components/ratings/UserHeader";
 import { CollapsibleSection } from "@/components/ratings/CollapsibleSection";
 import { RestaurantForm } from "@/components/ratings/RestaurantForm";
-import { redirect } from "next/navigation";
 import styles from "./page.module.css";
 
-export default async function Page({
+export default async function RatingsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ m?: string; t?: string; code?: string }>;
+  searchParams: Promise<{ m?: string; t?: string }>;
 }) {
   // Next 15/16：拿 URL 參數要 await
   const params = await searchParams;
-  
-  // 如果 URL 中有 code 參數（Magic Link 認證），重定向到 callback
-  // 這是臨時修復，因為 Supabase Redirect URL 配置可能只允許根路徑
-  if (params.code) {
-    redirect(`/auth/callback?code=${params.code}`);
-  }
   const { t } = params;
 
   // 解析認證訊息
@@ -125,7 +118,7 @@ export default async function Page({
           <div className={styles.qrText}>
             <div className={styles.qrTitle}>用手機掃描快速開啟</div>
             <div className={styles.qrUrl}>
-              https://ichen-app-restaurant-ratings.vercel.app
+              /ratings
             </div>
           </div>
         </div>
@@ -182,3 +175,4 @@ export default async function Page({
     </main>
   );
 }
+
