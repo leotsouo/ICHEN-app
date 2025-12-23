@@ -116,16 +116,16 @@ export async function supabaseServer() {
   // 拦截无效的 refresh token 错误
   // 包装 getUser 方法以静默处理所有认证相关错误
   const originalGetUser = client.auth.getUser.bind(client.auth);
-  client.auth.getUser = async () => {
+  client.auth.getUser = async (jwt?: string) => {
     // 使用 Promise.resolve 确保捕获所有可能的错误
-    return Promise.resolve(originalGetUser())
+    return Promise.resolve(originalGetUser(jwt))
       .then((result) => {
         // 检查返回的错误（Supabase 可能返回错误而不是抛出异常）
         if (result?.error) {
           const error = result.error as any;
           if (isAuthError(error)) {
-            // 静默处理，返回未登入状态
-            return { data: { user: null }, error: null };
+            // 静默处理，返回未登入状态（使用 unknown 中转类型断言）
+            return { data: { user: null }, error: null } as unknown as Awaited<ReturnType<typeof originalGetUser>>;
           }
         }
         return result;
@@ -133,8 +133,8 @@ export async function supabaseServer() {
       .catch((error: any) => {
         // 捕获所有可能的错误（包括在 HTTP 请求层面抛出的错误）
         if (isAuthError(error)) {
-          // 静默处理所有认证错误，返回未登入状态
-          return { data: { user: null }, error: null };
+          // 静默处理所有认证错误，返回未登入状态（使用 unknown 中转类型断言）
+          return { data: { user: null }, error: null } as unknown as Awaited<ReturnType<typeof originalGetUser>>;
         }
         
         // 其他非认证错误正常抛出

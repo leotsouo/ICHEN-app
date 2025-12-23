@@ -23,6 +23,21 @@ importers:
 
   apps/home:
     dependencies:
+      '@ichen-app/shared-ratings':
+        specifier: workspace:*
+        version: link:../../packages/shared-ratings
+      '@ichen-app/shared-supabase':
+        specifier: workspace:*
+        version: link:../../packages/shared-supabase
+      '@react-google-maps/api':
+        specifier: ^2.20.8
+        version: 2.20.8(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@supabase/ssr':
+        specifier: ^0.7.0
+        version: 0.7.0(@supabase/supabase-js@2.80.0)
+      '@supabase/supabase-js':
+        specifier: ^2.80.0
+        version: 2.80.0
       next:
         specifier: 16.0.1
         version: 16.0.1(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -32,6 +47,9 @@ importers:
       react-dom:
         specifier: 19.2.0
         version: 19.2.0(react@19.2.0)
+      zod:
+        specifier: ^4.1.12
+        version: 4.1.12
     devDependencies:
       '@types/node':
         specifier: ^20

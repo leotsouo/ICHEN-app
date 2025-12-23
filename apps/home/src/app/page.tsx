@@ -1,9 +1,24 @@
 // apps/home/src/app/page.tsx
+import { redirect } from "next/navigation";
 import styles from "./page.module.css";
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ code?: string }>;
+}) {
+  // 如果 URL 中有 code 參數（Magic Link 認證），重定向到 callback
+  const params = await searchParams;
+  if (params.code) {
+    redirect(`/auth/callback?code=${params.code}`);
+  }
+
   const apps = [
-    { name: "餐廳評分系統", desc: "撰寫／瀏覽評論", url: "http://localhost:3001" },
+    { 
+      name: "餐廳評分系統", 
+      desc: "撰寫／瀏覽評論", 
+      url: "/ratings" // 使用相對路徑，指向同一個域名的 /ratings 路徑
+    },
   ];
 
   return (
