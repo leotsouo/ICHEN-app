@@ -1,13 +1,20 @@
-import { NextResponse } from "next/server";
-import { supabaseServer } from "@/lib/supabase/server";
+// apps/restaurant-ratings/src/app/auth/logout/route.ts
+import { supabaseServer } from "@ichen-app/shared-supabase";
 import { mkTrace } from "@/lib/supabase/debug";
+import { createAuthRedirect } from "@/lib/auth/utils";
 
 export async function POST(req: Request) {
-  const t = mkTrace("AUTH_LOGOUT");
-  const s = await supabaseServer();
-  const { error } = await s.auth.signOut();
-  if (error) t.err("signOut error", error);
-  else t.log("logout ok");
+  const trace = mkTrace("AUTH_LOGOUT");
+  const { origin } = new URL(req.url);
+  const supabase = await supabaseServer();
 
-  return NextResponse.redirect(new URL(`/?m=logged_out&t=${t.id}`, req.url));
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    trace.err("signOut error", error);
+    return createAuthRedirect(origin, "error", trace.id, error.message);
+  }
+
+  trace.log("logout successful");
+  return createAuthRedirect(origin, "logged_out", trace.id);
 }
