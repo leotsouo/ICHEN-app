@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/components/ratings/ReviewForm.tsx
+// apps/home/src/components/ratings/ReviewForm.tsx
 import { addReview, RATING_OPTIONS, ASPECT_CONFIGS } from "@ichen-app/shared-ratings";
 import styles from "@/app/ratings/page.module.css";
 

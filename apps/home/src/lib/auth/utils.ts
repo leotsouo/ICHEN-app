@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/lib/auth/utils.ts
+// apps/home/src/lib/auth/utils.ts
 import { NextResponse } from "next/server";
 
 /**

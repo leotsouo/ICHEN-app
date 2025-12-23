@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/components/ratings/AllReviews.tsx
+// apps/home/src/components/ratings/AllReviews.tsx
 "use client";
 
 import { useState, useEffect } from "react";

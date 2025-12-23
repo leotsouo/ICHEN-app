@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/components/ratings/GooglePlacesAutocomplete.tsx
+// apps/home/src/components/ratings/GooglePlacesAutocomplete.tsx
 "use client";
 
 import { useRef, useEffect, useState } from "react";

@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/components/ratings/RestaurantList.tsx
+// apps/home/src/components/ratings/RestaurantList.tsx
 "use client";
 
 import { useState, useMemo } from "react";

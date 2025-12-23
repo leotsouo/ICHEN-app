@@ -116,7 +116,7 @@ export function AuthForm({ defaultMode = "magic-link" }: AuthFormProps) {
         }
         setIsLoading(false);
       }
-    } catch (error) {
+    } catch {
       setErrors({ email: "發生錯誤，請稍後再試" });
       setIsLoading(false);
     }

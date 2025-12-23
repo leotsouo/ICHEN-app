@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/components/ratings/StatsOverview.tsx
+// apps/home/src/components/ratings/StatsOverview.tsx
 import type { Restaurant } from "@ichen-app/shared-ratings";
 import { halfToRating } from "@ichen-app/shared-ratings";
 import { CollapsibleSection } from "./CollapsibleSection";

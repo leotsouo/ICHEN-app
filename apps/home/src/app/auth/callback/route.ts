@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/app/auth/callback/route.ts
+// apps/home/src/app/auth/callback/route.ts
 import { supabaseRoute } from "@ichen-app/shared-supabase";
 import { mkTrace } from "@/lib/supabase/debug";
 import { createAuthRedirect } from "@/lib/auth/utils";

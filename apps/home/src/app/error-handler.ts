@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/app/error-handler.ts
+// apps/home/src/app/error-handler.ts
 // 全局错误处理器，用于捕获和静默 Supabase refresh token 错误
 
 // 只在服务器端设置错误处理器

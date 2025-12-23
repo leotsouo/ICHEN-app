@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/components/ratings/LoginForm.tsx
+// apps/home/src/components/ratings/LoginForm.tsx
 import styles from "@/app/ratings/page.module.css";
 
 export function LoginForm() {

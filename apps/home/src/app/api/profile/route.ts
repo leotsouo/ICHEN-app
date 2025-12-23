@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/app/api/profile/route.ts
+// apps/home/src/app/api/profile/route.ts
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@ichen-app/shared-supabase";
 
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     }
 
     // 使用 upsert 來更新或創建記錄
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("profiles")
       .upsert(
         {
@@ -95,7 +95,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ data });
+    return NextResponse.json({ data: { display_name: trimmedName } });
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "未知錯誤" },

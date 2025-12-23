@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/app/auth/logout/route.ts
+// apps/home/src/app/auth/logout/route.ts
 import { supabaseServer } from "@ichen-app/shared-supabase";
 import { mkTrace } from "@/lib/supabase/debug";
 import { createAuthRedirect } from "@/lib/auth/utils";

@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/components/ratings/ReviewList.tsx
+// apps/home/src/components/ratings/ReviewList.tsx
 import type { Review } from "@ichen-app/shared-ratings";
 import { formatRating, deleteReview } from "@ichen-app/shared-ratings";
 import styles from "@/app/ratings/page.module.css";
