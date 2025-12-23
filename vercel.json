@@ -1,7 +1,11 @@
 {
-  "buildCommand": "pnpm build",
-  "devCommand": "pnpm dev",
-  "installCommand": "pnpm install",
-  "framework": null
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "buildCommand": "cd ../.. && pnpm build --filter=home",
+  "devCommand": "cd ../.. && pnpm dev --filter=home",
+  "installCommand": "cd ../.. && pnpm install",
+  "framework": null,
+  "outputDirectory": ".next",
+  "regions": ["hkg1"]
 }
 
