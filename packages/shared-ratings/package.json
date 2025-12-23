@@ -7,7 +7,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.80.0",
     "@ichen-app/shared-supabase": "workspace:*",
-    "next": "16.0.1"
+    "next": "^16.1.1"
   },
   "devDependencies": {
     "@types/node": "^20",
