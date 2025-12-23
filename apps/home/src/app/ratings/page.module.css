@@ -625,6 +625,12 @@
   color: var(--ink);
   font-size: 14px;
   transition: border-color 160ms ease, background-color 160ms ease;
+  /* 行動裝置優化 */
+  -webkit-appearance: none;
+  appearance: none;
+  /* 確保 Google Maps Autocomplete 下拉選單可見 */
+  position: relative;
+  z-index: 1;
 }
 
 .formSelect:focus,
@@ -632,6 +638,41 @@
   outline: none;
   border-color: var(--accent);
   background: color-mix(in srgb, var(--card) 95%, #fff);
+  /* 確保 focus 時 z-index 足夠高 */
+  z-index: 10;
+}
+
+/* Google Maps Autocomplete 下拉選單樣式優化（行動裝置） */
+:global(.pac-container) {
+  z-index: 9999 !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-top: 4px;
+}
+
+:global(.pac-item) {
+  padding: 10px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-top: 1px solid var(--border);
+}
+
+:global(.pac-item:first-child) {
+  border-top: none;
+}
+
+:global(.pac-item:hover),
+:global(.pac-item-selected) {
+  background: var(--bg-1);
+}
+
+:global(.pac-item-query) {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+:global(.pac-matched) {
+  font-weight: 600;
 }
 
 .aspectsSection {
