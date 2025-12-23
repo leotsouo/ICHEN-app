@@ -1,13 +1,23 @@
-export const DEV = process.env.NODE_ENV !== "production";
+// apps/restaurant-ratings/src/lib/supabase/debug.ts
 
+/**
+ * 簡單的追蹤工具，用於記錄認證相關的日誌
+ */
 export function mkTrace(prefix: string) {
-  const id =
-    (globalThis.crypto as any)?.randomUUID?.() ??
-    Math.random().toString(36).slice(2, 10);
-  const tag = `${prefix}#${id}`;
+  const id = `${prefix}#${Date.now()}`;
+  
   return {
     id,
-    log: (...a: any[]) => DEV && console.log(`[${tag}]`, ...a),
-    err: (...a: any[]) => DEV && console.error(`[${tag}]`, ...a),
+    log(message: string, data?: Record<string, any>) {
+      if (process.env.NODE_ENV === "development") {
+        console.log(`[${id}]`, message, data || "");
+      }
+    },
+    err(message: string, error?: any) {
+      if (process.env.NODE_ENV === "development") {
+        console.error(`[${id}]`, message, error || "");
+      }
+    },
   };
 }
+

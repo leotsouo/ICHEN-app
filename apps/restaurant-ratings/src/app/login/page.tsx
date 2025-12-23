@@ -1,32 +1,52 @@
 // apps/restaurant-ratings/src/app/login/page.tsx
 import { redirect } from "next/navigation";
 import styles from "../page.module.css";
-import { supabaseServer } from "@/lib/supabase/server";
+import { supabaseServer } from "@ichen-app/shared-supabase";
+import { parseAuthMessage, getAuthMessageText } from "@/lib/auth/utils";
+import { AuthForm } from "@/components/ratings/AuthForm";
 
 export default async function LoginPage({
   searchParams,
 }: {
   searchParams: Promise<{ m?: string; error?: string }>;
 }) {
-  const { m, error } = await searchParams;
-
+  const params = await searchParams;
+  
   // 若已登入，直接回首頁
-  const supabase = supabaseServer();
-  const {
-    data: { user },
-  } = await (await supabase).auth.getUser();
+  const supabase = await supabaseServer();
+  let user = null;
+  try {
+    const {
+      data: { user: currentUser },
+      error: authError,
+    } = await supabase.auth.getUser();
+    
+    // 如果 refresh token 无效，忽略错误（用户未登入）
+    if (authError && authError.message?.includes("Refresh Token")) {
+      // 清除无效的 session（通过登出）
+      try {
+        await supabase.auth.signOut();
+      } catch {
+        // 忽略登出错误
+      }
+      user = null;
+    } else {
+      user = currentUser;
+    }
+  } catch (error) {
+    // 捕获其他认证错误，视为未登入
+    user = null;
+  }
+  
   if (user) redirect("/");
 
-  const banner =
-    m === "sent"
-      ? { type: "info", text: "已寄出登入連結，請到信箱點擊 Magic Link。" }
-      : m === "access_denied"
-      ? { type: "warn", text: "登入連結無效或已過期，請重新寄送一封新的。" }
-      : m === "bad_email"
-      ? { type: "warn", text: "Email 格式不正確，請再確認一次。" }
-      : error
-      ? { type: "warn", text: decodeURIComponent(error) }
-      : null;
+  // 解析認證訊息
+  const searchParamsObj = new URLSearchParams();
+  if (params.m) searchParamsObj.set("m", params.m);
+  if (params.error) searchParamsObj.set("error", params.error);
+  
+  const { message, error } = parseAuthMessage(searchParamsObj);
+  const banner = getAuthMessageText(message, error);
 
   return (
     <main className={styles.rrMain}>
@@ -42,39 +62,19 @@ export default async function LoginPage({
       {banner && (
         <div
           className={`${styles.rrBanner} ${
-            banner.type === "info" ? styles.info : styles.warn
+            banner.type === "success"
+              ? styles.success || styles.info
+              : banner.type === "info"
+              ? styles.info
+              : styles.warn
           }`}
         >
           {banner.text}
         </div>
       )}
 
-      {/* Magic Link 表單 */}
-      <section style={{ marginTop: 12 }}>
-        <form action="/auth/login" method="POST" className={styles.rrForm}>
-          <input
-            type="email"
-            name="email"
-            required
-            autoComplete="email"
-            placeholder="輸入 Email 以接收登入連結（Magic Link）"
-            className={styles.rrInput}
-          />
-          <button type="submit" className={styles.rrBtn}>
-            寄送登入連結
-          </button>
-        </form>
-        <p
-          style={{
-            marginTop: 10,
-            fontSize: 14,
-            opacity: 0.7,
-            lineHeight: "22px",
-          }}
-        >
-          我們採用無密碼登入（Magic Link）。輸入 Email 後，前往信箱點擊連結即可完成登入。
-        </p>
-      </section>
+      {/* 登入/註冊表單 */}
+      <AuthForm />
     </main>
   );
 }

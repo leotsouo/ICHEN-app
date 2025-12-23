@@ -1,119 +1,1308 @@
-/* 暖色系主題（餐廳評分） */
-.page {
-  --bg: #fff7f2;
-  --paper: #fffdfa;
-  --ink: #4e3222;
-  --ink-muted: #7a5a4a;
-  --card: #fffdfa;
-  --card-stroke: rgba(78, 50, 34, 0.12);
-  --accent-ink: #56361f;
-  --radius: 14px;
+/* apps/restaurant-ratings/src/app/page.module.css */
 
-  background: var(--bg);
-  min-height: 100svh;
-  padding: 24px;
-}
+/* ===== 基底：溫暖配色（與 home 一致）===== */
+.warmMain {
+  /* palette */
+  --ink: #3d302a;
+  --muted: #7b6358;
+  --card: #fffdfb;
+  --bg-0: #fff7f0;
+  --bg-1: #fff1e4;
+  --bg-2: #ffe7d3;
+  --border: rgba(78, 50, 34, 0.12);
+  --border-strong: rgba(78, 50, 34, 0.22);
+  --accent: #e6a57e;      /* 杏桃 */
+  --accent-2: #f3c3a1;    /* 奶茶 */
+  --cta: #ffd9c2;         /* 蜜桃 */
 
-.main {
-  width: 100%;
-  max-width: 960px;
+  /* layout */
+  min-height: 100dvh;
+  max-width: 980px;
   margin: 0 auto;
-  background: var(--paper);
-  border: 1px solid var(--card-stroke);
-  border-radius: var(--radius);
-  padding: 24px;
-
-  /* 修正：不要把內容撐到上下兩端 */
+  padding: 40px 16px 24px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 16px;
+  gap: 22px;
+
+  color: var(--ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Helvetica Neue",
+    Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+  /* 柔和暖色背景：多層漸層 + 超淡紋理 */
+  background:
+    radial-gradient(1100px 600px at -10% -20%, var(--bg-2) 0%, transparent 65%),
+    radial-gradient(900px 500px at 120% 0%,  var(--bg-1) 0%, transparent 65%),
+    linear-gradient(180deg, var(--bg-0) 0%, #fffdfa 100%);
+  position: relative;
+  isolation: isolate;
+  animation: fadeIn 360ms ease-out both;
 }
 
-/* 頁首區 */
-.intro {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border-bottom: 1px dashed rgba(78, 50, 34, 0.18);
-  padding-bottom: 12px;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.titleRow {
+/* ===== Header ===== */
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
+  background: color-mix(in srgb, #ffffff 82%, var(--bg-1));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-shadow:
+    0 10px 24px rgba(150, 100, 60, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+  backdrop-filter: blur(2px);
 }
 
-.h1 {
+.header h1 {
   margin: 0;
-  font-size: 28px;
-  line-height: 1.2;
+  font-size: 24px;
+  letter-spacing: .4px;
   color: var(--ink);
 }
 
-.back {
-  color: var(--ink-muted);
+.userHeader {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 14px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.displayNameSection {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.displayNameDisplay {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.displayNameLabel {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.displayNameValue {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.setDisplayNameButton,
+.editButton {
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.setDisplayNameButton:hover,
+.editButton:hover {
+  background: var(--bg-2);
+  color: var(--ink);
+}
+
+.displayNameEdit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.displayNameInput {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 12px;
+  width: 120px;
+}
+
+.displayNameInput:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.saveButton,
+.cancelButton {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 160ms ease;
+  border: 1px solid var(--border);
+}
+
+.saveButton {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.saveButton:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 90%, #000);
+}
+
+.saveButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelButton {
+  background: var(--bg-1);
+  color: var(--muted);
+}
+
+.cancelButton:hover {
+  background: var(--bg-2);
+  color: var(--ink);
+}
+
+.errorText {
+  color: #d32f2f;
+  font-size: 11px;
+}
+
+.logoutButton {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--cta);
+  border: 1px solid color-mix(in srgb, var(--cta) 60%, #000 12%);
+  color: color-mix(in srgb, var(--ink) 86%, #6b3e2b);
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.65);
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+}
+
+.logoutButton:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--cta) 88%, #fff);
+  border-color: color-mix(in srgb, var(--cta) 58%, #000 18%);
+}
+
+/* ===== Navigation ===== */
+.backLink {
+  color: var(--muted);
   text-decoration: none;
   font-size: 14px;
+  transition: color 160ms ease;
 }
 
-.callout {
-  background: #fff6ef;
-  border: 1px solid var(--card-stroke);
-  padding: 10px 12px;
+.backLink:hover {
+  color: var(--ink);
+}
+
+/* ===== QR Code Section ===== */
+.qrSection {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 0;
+}
+
+.qrText {
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.qrTitle {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.qrUrl {
+  max-width: 220px;
+  word-break: break-all;
+  opacity: 0.8;
+  color: var(--muted);
+}
+
+/* ===== Banner ===== */
+.banner {
+  padding: 12px 16px;
   border-radius: 12px;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  box-shadow:
+    0 4px 12px rgba(150, 100, 60, 0.06),
+    inset 0 1px 0 rgba(255,255,255,0.7);
 }
 
-/* 登入列 */
-.loginRow {
+.bannerInfo {
+  background: color-mix(in srgb, #eef6ff 85%, var(--bg-1));
+  border-color: color-mix(in srgb, #cfe3ff 60%, var(--border));
+  color: var(--ink);
+}
+
+.bannerSuccess {
+  background: color-mix(in srgb, #e6f7e6 85%, var(--bg-1));
+  border-color: color-mix(in srgb, #c3e6c3 60%, var(--border));
+  color: var(--ink);
+}
+
+.bannerWarn {
+  background: color-mix(in srgb, #fff3cd 85%, var(--bg-1));
+  border-color: color-mix(in srgb, #ffeaa7 60%, var(--border));
+  color: var(--ink);
+}
+
+.bannerTrace {
+  margin-left: 8px;
+  opacity: 0.6;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ===== Login Form ===== */
+.loginSection {
+  background: color-mix(in srgb, #ffffff 82%, var(--bg-1));
+  border: 1px dashed var(--border-strong);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow:
+    0 10px 22px rgba(150, 100, 60, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.75);
+}
+
+.loginForm {
   display: flex;
   gap: 8px;
-  margin-top: 8px;
-}
-.input {
-  flex: 1;
-  padding: 10px 12px;
-  border: 1px solid rgba(78, 50, 34, 0.22);
-  border-radius: 10px;
-  background: #fffdfb;
-}
-.button {
-  padding: 10px 14px;
-  border-radius: 10px;
-  background: linear-gradient(#ffdfc7, #ffcaa5);
-  border: 1px solid var(--card-stroke);
-  color: var(--accent-ink);
-  font-weight: 600;
 }
 
-/* 清單 */
-.list {
+.loginInput {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 14px;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.loginInput:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--card) 95%, #fff);
+}
+
+.loginButton {
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--cta);
+  border: 1px solid color-mix(in srgb, var(--cta) 60%, #000 12%);
+  color: color-mix(in srgb, var(--ink) 86%, #6b3e2b);
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.65);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  white-space: nowrap;
+}
+
+.loginButton:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--cta) 88%, #fff);
+  border-color: color-mix(in srgb, var(--cta) 58%, #000 18%);
+}
+
+/* ===== Auth Form (New) ===== */
+.authSection {
+  background: color-mix(in srgb, #ffffff 82%, var(--bg-1));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow:
+    0 10px 22px rgba(150, 100, 60, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.75);
+}
+
+.authTabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.authTab {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 160ms ease;
+  position: relative;
+}
+
+.authTab:hover {
+  background: var(--bg-1);
+  color: var(--ink);
+}
+
+.authTabActive {
+  color: var(--ink);
+  background: var(--bg-1);
+}
+
+.authTabActive::after {
+  content: "";
+  position: absolute;
+  bottom: -13px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px 2px 0 0;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.authField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.authLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.authInput {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 14px;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.authInput:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--card) 95%, #fff);
+}
+
+.authInputError {
+  border-color: #d32f2f;
+  background: color-mix(in srgb, #fff3f3 90%, var(--card));
+}
+
+.authInput:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.authError {
+  font-size: 12px;
+  color: #d32f2f;
+  margin-top: -4px;
+}
+
+.authSubmitButton {
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 60%, #000 12%);
+  color: white;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.65);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  margin-top: 4px;
+}
+
+.authSubmitButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--accent) 90%, #000);
+  border-color: color-mix(in srgb, var(--accent) 58%, #000 18%);
+}
+
+.authSubmitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.authLoading {
+  display: inline-block;
+  opacity: 0.8;
+}
+
+.authHint {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ===== Restaurant List ===== */
+.restaurantList {
+  display: grid;
+  gap: 16px;
   list-style: none;
   padding: 0;
   margin: 0;
-  display: grid;
-  gap: 12px;
-}
-.item {
-  border: 1px solid var(--card-stroke);
-  background: var(--card);
-  border-radius: 12px;
-  padding: 14px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75);
-}
-.itemTitle {
-  font-weight: 700;
-  font-size: 18px;
-  color: var(--ink);
-}
-.itemSub {
-  color: var(--ink);
-  opacity: .75;
 }
 
-@media (max-width: 640px) {
-  .page { padding: 12px; }
-  .main { padding: 16px; }
-  .h1 { font-size: 22px; }
+/* ===== Restaurant Card ===== */
+.restaurantCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow:
+    0 10px 22px rgba(150, 100, 60, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.75);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.restaurantCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  background: color-mix(in srgb, var(--card) 90%, var(--bg-1));
+  box-shadow:
+    0 14px 28px rgba(150, 100, 60, 0.14),
+    inset 0 1px 0 rgba(255,255,255,0.85);
+}
+
+.restaurantName {
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: .2px;
+  color: var(--ink);
+  margin: 0 0 4px 0;
+}
+
+.restaurantAddress {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.restaurantRating {
+  font-size: 14px;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.restaurantRating strong {
+  color: var(--accent);
+}
+
+/* ===== Review List ===== */
+.reviewSection {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border);
+}
+
+.reviewSectionTitle {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.reviewList {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reviewItem {
+  background: color-mix(in srgb, var(--bg-0) 60%, var(--card));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.reviewRating {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 15px;
+}
+
+.reviewDate {
+  color: var(--muted);
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.deleteButton {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.deleteButton:hover {
+  background: color-mix(in srgb, var(--bg-1) 80%, var(--card));
+  border-color: var(--border-strong);
+}
+
+.reviewComment {
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 6px;
+}
+
+/* ===== Review Form ===== */
+.reviewForm {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border);
+}
+
+.formRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.formLabel {
+  width: 90px;
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.formSelect,
+.formInput {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 14px;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.formSelect:focus,
+.formInput:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--card) 95%, #fff);
+}
+
+.aspectsSection {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg-0) 40%, var(--card));
+}
+
+.aspectsTitle {
+  font-weight: 600;
+  opacity: 0.8;
+  color: var(--ink);
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.submitButton {
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--cta);
+  border: 1px solid color-mix(in srgb, var(--cta) 60%, #000 12%);
+  color: color-mix(in srgb, var(--ink) 86%, #6b3e2b);
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.65);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  width: fit-content;
+}
+
+.submitButton:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--cta) 88%, #fff);
+  border-color: color-mix(in srgb, var(--cta) 58%, #000 18%);
+}
+
+.loginPrompt {
+  margin-top: 12px;
+  padding: 12px;
+  text-align: center;
+  opacity: 0.7;
+  color: var(--muted);
+  font-size: 14px;
+  font-style: italic;
+  background: color-mix(in srgb, var(--bg-0) 60%, var(--card));
+  border-radius: 10px;
+  border: 1px dashed var(--border);
+}
+
+/* ===== 餐廳操作區塊 ===== */
+.restaurantActions {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border);
+}
+
+/* ===== 可展開區塊 ===== */
+.collapsibleSection {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--card) 95%, var(--bg-1));
+  transition: border-color 160ms ease;
+}
+
+.collapsibleSection:hover {
+  border-color: var(--border-strong);
+}
+
+.collapsibleHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: color-mix(in srgb, var(--bg-0) 50%, var(--card));
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: background-color 160ms ease;
+  text-align: left;
+}
+
+.collapsibleHeader:hover {
+  background: color-mix(in srgb, var(--bg-1) 60%, var(--card));
+}
+
+.collapsibleTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.collapsibleIcon {
+  font-size: 16px;
+}
+
+.collapsibleArrow {
+  font-size: 12px;
+  color: var(--muted);
+  transition: transform 160ms ease;
+}
+
+.collapsibleHeader[aria-expanded="true"] .collapsibleArrow {
+  transform: rotate(0deg);
+}
+
+.collapsibleContent {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  background: var(--card);
+}
+
+/* ===== 所有評論列表 ===== */
+.allReviewsList {
+  display: grid;
+  gap: 16px;
+}
+
+.reviewsLoading,
+.reviewsError {
+  padding: 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.loadingSpinner {
+  font-size: 14px;
+}
+
+.reviewsError {
+  color: #dc2626;
+  background: color-mix(in srgb, #fee 85%, var(--bg-1));
+  border: 1px solid #fcc;
+  border-radius: 10px;
+}
+
+.noReviews {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--muted);
+}
+
+.noReviewsIcon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  opacity: 0.6;
+}
+
+.noReviewsText {
+  font-size: 14px;
+}
+
+/* ===== 評論項目（Google 風格）===== */
+.reviewItem {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow:
+    0 2px 8px rgba(150, 100, 60, 0.06),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+  transition: box-shadow 160ms ease, transform 160ms ease;
+}
+
+.reviewItem:hover {
+  box-shadow:
+    0 4px 12px rgba(150, 100, 60, 0.12),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+  transform: translateY(-1px);
+}
+
+.reviewItem.ownReview {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--card));
+}
+
+.reviewUserInfo {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.reviewUserAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.reviewUserDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.reviewUserName {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ownReviewBadge {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+.reviewDate {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.reviewRating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.reviewStars {
+  font-size: 16px;
+  color: #fbbf24;
+  letter-spacing: 2px;
+}
+
+.reviewRatingValue {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 15px;
+}
+
+.reviewComment {
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-top: 8px;
+}
+
+/* ===== 分項評分顯示 ===== */
+.reviewAspects {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+
+.aspectsTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.aspectsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.aspectItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: color-mix(in srgb, var(--bg-0) 60%, var(--card));
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.aspectLabel {
+  color: var(--muted);
+}
+
+.aspectRating {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ===== RWD & 動效保護 ===== */
+@media (min-width: 960px) {
+  .header h1 { font-size: 26px; }
+}
+
+/* ===== 統計總覽 ===== */
+.statsOverview {
+  background: color-mix(in srgb, #ffffff 82%, var(--bg-1));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow:
+    0 10px 24px rgba(150, 100, 60, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+  backdrop-filter: blur(2px);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.statCard {
+  text-align: center;
+  padding: 12px;
+  background: color-mix(in srgb, var(--card) 90%, var(--bg-1));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.statValue {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.overallRating {
+  text-align: center;
+  padding: 16px;
+  background: color-mix(in srgb, var(--bg-0) 60%, var(--card));
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.overallRatingValue {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.overallRatingLevel {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.overallRatingDesc {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.ratingDistribution {
+  margin-top: 20px;
+}
+
+.distributionTitle {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.distributionBars {
+  display: grid;
+  gap: 10px;
+}
+
+.distributionBar {
+  display: grid;
+  gap: 6px;
+}
+
+.barLabel {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+.barContainer {
+  position: relative;
+  height: 24px;
+  background: color-mix(in srgb, var(--bg-0) 80%, var(--card));
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 300ms ease;
+  position: relative;
+}
+
+.barValue {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  z-index: 1;
+}
+
+/* ===== 篩選和排序 ===== */
+.filtersSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: color-mix(in srgb, #ffffff 82%, var(--bg-1));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow:
+    0 10px 22px rgba(150, 100, 60, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.75);
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filterLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.filterSelect {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--card) 95%, #fff);
+}
+
+/* ===== 結果計數 ===== */
+.resultsCount {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+/* ===== 空狀態 ===== */
+.emptyState {
+  text-align: center;
+  padding: 48px 24px;
+  background: color-mix(in srgb, #ffffff 82%, var(--bg-1));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow:
+    0 10px 22px rgba(150, 100, 60, 0.08),
+    inset 0 1px 0 rgba(255,255,255,0.75);
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+
+.emptyText {
+  font-size: 16px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* ===== 錯誤訊息 ===== */
+.errorMessage {
+  padding: 20px;
+  background: color-mix(in srgb, #fee 85%, var(--bg-1));
+  border: 1px solid #fcc;
+  border-radius: 12px;
+  color: #c33;
+  font-weight: 600;
+}
+
+/* ===== 餐廳卡片改進 ===== */
+.restaurantHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.ratingBadge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid currentColor;
+  opacity: 0.8;
+}
+
+.ratingValue {
+  font-size: 16px;
+}
+
+.ratingCount {
+  font-size: 13px;
+  color: var(--muted);
+  margin-left: 4px;
+}
+
+.ratingDesc {
+  font-size: 13px;
+  color: var(--muted);
+  margin-left: 8px;
+  font-style: italic;
+}
+
+.noRating {
+  font-size: 14px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ===== 確認對話框 ===== */
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(2px);
+}
+
+.dialogContent {
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  animation: dialogSlideIn 200ms ease-out;
+}
+
+@keyframes dialogSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dialogHeader {
+  padding: 20px 20px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.dialogBody {
+  padding: 20px;
+}
+
+.dialogMessage {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.dialogFooter {
+  padding: 12px 20px 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 1px solid var(--border);
+}
+
+.dialogButton {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.dialogButton:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--bg-1) 80%, var(--card));
+  border-color: var(--border-strong);
+}
+
+.dialogButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dialogButtonPrimary {
+  background: var(--cta);
+  border-color: color-mix(in srgb, var(--cta) 60%, #000 12%);
+  color: color-mix(in srgb, var(--ink) 86%, #6b3e2b);
+}
+
+.dialogButtonPrimary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--cta) 88%, #fff);
+}
+
+.dialogButtonDanger {
+  background: #ef4444;
+  border-color: #dc2626;
+  color: white;
+}
+
+.dialogButtonDanger:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .warmMain, .restaurantCard, .logoutButton, .loginButton, .submitButton, .deleteButton, .barFill {
+    transition: none;
+    animation: none;
+  }
+  
+  .dialogContent {
+    animation: none;
+  }
 }
