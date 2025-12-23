@@ -2,7 +2,6 @@
   "buildCommand": "pnpm build",
   "devCommand": "pnpm dev",
   "installCommand": "pnpm install",
-  "framework": null,
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- apps/home"
+  "framework": null
 }
 
