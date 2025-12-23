@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/components/ratings/AuthBanner.tsx
+// apps/home/src/components/ratings/AuthBanner.tsx
 import type { AuthMessage } from "@/lib/auth/utils";
 import { getAuthMessageText } from "@/lib/auth/utils";
 import styles from "@/app/ratings/page.module.css";

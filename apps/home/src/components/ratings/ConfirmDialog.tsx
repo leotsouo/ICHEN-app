@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/components/ratings/ConfirmDialog.tsx
+// apps/home/src/components/ratings/ConfirmDialog.tsx
 "use client";
 
 import { useState, ReactNode } from "react";

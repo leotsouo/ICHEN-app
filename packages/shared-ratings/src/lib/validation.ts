@@ -94,20 +94,9 @@ export function validateReviewFormData(
   }
 
   // 檢查分項評分與整體評分的一致性（可選的警告檢查）
-  if (data.aspects && data.rating !== undefined) {
-    const aspectValues = Object.values(data.aspects).filter(
-      (v) => v !== undefined && v !== null
-    ) as number[];
-
-    if (aspectValues.length > 0) {
-      const avgAspect =
-        aspectValues.reduce((a, b) => a + b, 0) / aspectValues.length;
-      const diff = Math.abs(avgAspect - data.rating);
-
-      // 如果分項平均與整體評分差距過大（>1.5星），給出警告但不阻止提交
-      // 這只是邏輯檢查，不影響驗證結果
-    }
-  }
+  // 如果分項平均與整體評分差距過大（>1.5星），給出警告但不阻止提交
+  // 這只是邏輯檢查，不影響驗證結果
+  // 注意：目前此檢查已移除，因為不影響驗證結果
 
   return { valid: true };
 }

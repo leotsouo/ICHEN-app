@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/components/ratings/ReviewAspects.tsx
+// apps/home/src/components/ratings/ReviewAspects.tsx
 import { halfToRating, ASPECT_CONFIGS } from "@ichen-app/shared-ratings";
 import styles from "@/app/ratings/page.module.css";
 
