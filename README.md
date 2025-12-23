@@ -177,9 +177,9 @@ pnpm test
 
 ## 🌐 Vercel 部署指南
 
-> 📖 **完整部署攻略請參考 [Vercel 完整部署攻略](docs/deployment/VERCEL_DEPLOYMENT_GUIDE.md)**  
-> ⚡ **快速部署參考請參考 [快速部署指南](docs/deployment/QUICK_DEPLOY.md)**  
-> 📋 **部署檢查清單請參考 [部署檢查清單](docs/deployment/DEPLOYMENT.md)**
+> 📖 **完整部署指南請參考 [部署文檔](docs/deployment/README.md)**  
+> ⚡ **快速部署請參考 [快速開始指南](docs/deployment/QUICK_START.md)**  
+> 📋 **部署檢查清單請參考 [部署檢查清單](docs/deployment/CHECKLIST.md)**
 
 ### 前置準備
 
@@ -249,27 +249,15 @@ pnpm test
 
 ### 配置 Monorepo 部署
 
-由於這是 monorepo 專案，Vercel 需要知道要部署哪個應用：
-
-#### 選項 1：部署單一應用（restaurant-ratings）
+本專案採用**單一應用部署架構**，`restaurant-ratings` 已整合到 `home` 應用中。
 
 在 Vercel 專案設定中：
-- **Root Directory**: `apps/restaurant-ratings`
-- **Build Command**: `cd ../.. && pnpm build --filter=restaurant-ratings`
+- **Root Directory**: `apps/home`
+- **Build Command**: `cd ../.. && pnpm build --filter=home`（或使用 `vercel.json` 配置）
+- **Install Command**: `cd ../.. && pnpm install`
 - **Output Directory**: `.next`
 
-#### 選項 2：使用 Vercel 的 Monorepo 支援
-
-1. 在專案根目錄創建 `vercel.json`：
-   ```json
-   {
-     "buildCommand": "pnpm build",
-     "devCommand": "pnpm dev",
-     "installCommand": "pnpm install"
-   }
-   ```
-
-2. 在 Vercel Dashboard 中啟用 Monorepo 支援
+> 💡 **提示**：`vercel.json` 已配置好這些設定，Vercel 會自動使用。
 
 ### 部署後檢查清單
 
@@ -345,7 +333,12 @@ corepack prepare pnpm@9.15.9 --activate
 - [刪除用戶指南](docs/guides/DELETE_USER_GUIDE.md) - 如何刪除用戶的詳細說明
 
 ### 🚀 部署文檔 (`docs/deployment/`)
-- [部署檢查清單](docs/deployment/DEPLOYMENT.md) - 部署前的完整檢查清單
+- [部署文檔索引](docs/deployment/README.md) - 部署文檔總覽
+- [完整部署指南](docs/deployment/DEPLOYMENT.md) - 詳細的部署步驟和說明
+- [快速開始指南](docs/deployment/QUICK_START.md) - 5 分鐘快速部署
+- [環境變數配置](docs/deployment/ENVIRONMENT_VARIABLES.md) - 環境變數詳細說明
+- [部署檢查清單](docs/deployment/CHECKLIST.md) - 部署前後的檢查項目
+- [疑難排解](docs/deployment/TROUBLESHOOTING.md) - 常見問題和解決方案
 
 ### 🗄️ 資料庫文檔 (`docs/database/`)
 - [資料庫遷移說明](docs/database/DATABASE_MIGRATION.md) - 資料庫結構變更指南

@@ -4,7 +4,7 @@
   "buildCommand": "cd ../.. && pnpm build --filter=home",
   "devCommand": "cd ../.. && pnpm dev --filter=home",
   "installCommand": "cd ../.. && pnpm install",
-  "framework": null,
+  "framework": "nextjs",
   "outputDirectory": ".next",
   "regions": ["hkg1"]
 }
