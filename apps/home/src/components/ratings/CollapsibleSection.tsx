@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/components/ratings/CollapsibleSection.tsx
+// apps/home/src/components/ratings/CollapsibleSection.tsx
 "use client";
 
 import { useState, ReactNode } from "react";

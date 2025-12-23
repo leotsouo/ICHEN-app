@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/app/api/reviews/route.ts
+// apps/home/src/app/api/reviews/route.ts
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@ichen-app/shared-supabase";
 

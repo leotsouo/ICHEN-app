@@ -77,7 +77,6 @@ export async function supabaseServer() {
       const errorMessage = String(error?.message || '').toLowerCase();
       const errorCode = String(error?.code || '').toLowerCase();
       const errorName = String(error?.name || '').toLowerCase();
-      const errorType = String(error?.type || '').toLowerCase();
       const errorStatus = error?.status;
       const constructorName = String(error?.constructor?.name || '').toLowerCase();
       
@@ -96,8 +95,6 @@ export async function supabaseServer() {
         // 错误名称检查
         errorName === 'authapierror' ||
         errorName === 'auth error' ||
-        // 错误类型检查
-        errorType === 'auth' ||
         // 其他标识
         error?.__isAuthError === true ||
         // HTTP 状态码检查

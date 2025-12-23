@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/components/ratings/RestaurantForm.tsx
+// apps/home/src/components/ratings/RestaurantForm.tsx
 "use client";
 
 import { useState, useTransition, useRef } from "react";

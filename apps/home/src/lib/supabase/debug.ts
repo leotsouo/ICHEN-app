@@ -1,4 +1,4 @@
-// apps/restaurant-ratings/src/lib/supabase/debug.ts
+// apps/home/src/lib/supabase/debug.ts
 
 /**
  * 簡單的追蹤工具，用於記錄認證相關的日誌
